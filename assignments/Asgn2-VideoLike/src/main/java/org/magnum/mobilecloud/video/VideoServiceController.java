@@ -25,14 +25,12 @@ import org.magnum.mobilecloud.video.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -69,5 +67,16 @@ public class VideoServiceController {
     @RequestMapping(value = VIDEO_PATH, method = RequestMethod.POST)
     public @ResponseBody Video addVideoMetadata(@RequestBody Video video) {
         return videoRepository.save(video);
+    }
+
+    @RequestMapping(value = VIDEO_PATH + "/{id}", method = RequestMethod.GET)
+    public @ResponseBody Video getVideo(@PathVariable("id") long id, HttpServletResponse response) {
+        Video v = videoRepository.findById(id);
+
+        if (v == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+        return v;
     }
 }
