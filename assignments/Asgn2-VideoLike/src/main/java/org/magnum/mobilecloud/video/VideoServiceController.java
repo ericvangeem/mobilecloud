@@ -18,6 +18,7 @@
 
 package org.magnum.mobilecloud.video;
 
+import com.google.common.collect.Lists;
 import org.magnum.mobilecloud.video.auth.User;
 import org.magnum.mobilecloud.video.repository.Video;
 import org.magnum.mobilecloud.video.repository.VideoRepository;
@@ -28,12 +29,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
 public class VideoServiceController {
+
+    public static final String VIDEO_PATH = "/video";
 
     @Autowired
     private VideoRepository videoRepository;
@@ -43,9 +50,24 @@ public class VideoServiceController {
 		return "Good Luck!";
 	}
 
-    @RequestMapping(value = "/videos", method = RequestMethod.GET)
-    public @ResponseBody
-    List<Video> getVideos() {
-        return null;
+    /**
+     * Returns the list of videos that have been added to the server as JSON.
+     *
+     * @return the list of Videos stored in the repository.
+     */
+    @RequestMapping(value = VIDEO_PATH, method = RequestMethod.GET)
+    public @ResponseBody Collection<Video> getVideos() {
+        return Lists.newArrayList(videoRepository.findAll());
+    }
+
+    /**
+     * Saves the Video metadata provided by the client and returns the saved Video represented as JSON.
+     *
+     * @param video The JSON representation of the Video to store.
+     * @return the JSON representation of the Video object that was stored along with any updates to that object made by the server.
+     */
+    @RequestMapping(value = VIDEO_PATH, method = RequestMethod.POST)
+    public @ResponseBody Video addVideoMetadata(@RequestBody Video video) {
+        return videoRepository.save(video);
     }
 }
