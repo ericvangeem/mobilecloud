@@ -155,14 +155,31 @@ public class VideoServiceController {
     }
 
     /**
-     * Retrieves a list of <code>Videos</code> with the specified title.
+     * Retrieves a list of <code>Video</code> objects with the specified title.
      *
-     * @param title the title to search for
+     * @param title the title to search for.
      * @return the list of videos with the given title, may be empty if no videos are found.
      */
     @RequestMapping(value = VIDEO_PATH + SEARCH_PATH + "/findByName", method = RequestMethod.GET)
     public @ResponseBody List<Video> findVideoByName(@RequestParam("title") String title) {
         List<Video> videos = videoRepository.findByName(title);
+
+        if (videos == null) {
+            videos = Lists.newArrayList();
+        }
+
+        return videos;
+    }
+
+    /**
+     * Retrieves a list of <code>Video</code> objects whose duration is less than that provided in the request parameter.
+     * @param duration the duration the search against.
+     * @return the list of videos whose duration is less than the that provided in the request parameter,
+     *         may be empty if no videos match the search criteria.
+     */
+    @RequestMapping(value = VIDEO_PATH + SEARCH_PATH + "/findByDurationLessThan", method = RequestMethod.GET)
+    public @ResponseBody List<Video> findVideoByDurationLessThan(@RequestParam("duration") long duration) {
+        List<Video> videos = videoRepository.findByDurationLessThan(duration);
 
         if (videos == null) {
             videos = Lists.newArrayList();
