@@ -93,12 +93,14 @@ public class Video {
      * @return an int representing the HTTP response code. 200 if like was successful, 400 if user already liked this video.
      */
     public boolean likeVideo(String user) {
-        if (userLikes.add(user)) {
-            likes++;
-            return true;
-        } else {
-            return false;
+        if (user != null) {
+            if (userLikes.add(user)) {
+                likes++;
+                return true;
+            }
         }
+
+        return false;
     }
 	
 	/**
