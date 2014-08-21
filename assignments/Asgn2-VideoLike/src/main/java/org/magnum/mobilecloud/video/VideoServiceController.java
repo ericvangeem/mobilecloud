@@ -19,17 +19,12 @@
 package org.magnum.mobilecloud.video;
 
 import com.google.common.collect.Lists;
-import org.magnum.mobilecloud.video.auth.User;
 import org.magnum.mobilecloud.video.repository.Video;
 import org.magnum.mobilecloud.video.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Collection;
@@ -44,11 +39,6 @@ public class VideoServiceController {
 
     @Autowired
     private VideoRepository videoRepository;
-
-	@RequestMapping(value="/go",method=RequestMethod.GET)
-	public @ResponseBody String goodLuck(){
-		return "Good Luck!";
-	}
 
     /**
      * Returns the list of videos that have been added to the server as JSON.
