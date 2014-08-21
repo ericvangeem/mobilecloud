@@ -105,4 +105,30 @@ public class VideoServiceController {
             }
         }
     }
+
+    /**
+     * Unlikes a <code>Video</code> specified by its <code>id</code>.
+     *
+     * @param id the id of the <code>Video</code>
+     * @param p the <code>Principal</code> object associated with this user.
+     * @param response the servlet response object.
+     */
+    @RequestMapping(value = VIDEO_PATH + "/{id}/unlike", method = RequestMethod.POST)
+    public void unlikeVideo(@PathVariable("id") long id,
+                          Principal p,
+                          HttpServletResponse response) {
+
+        Video v = getVideo(id, response);
+
+        if (v != null) {
+            boolean success = v.unlikeVideo(p.getName());
+
+            if (success) {
+                videoRepository.save(v);
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        }
+    }
 }

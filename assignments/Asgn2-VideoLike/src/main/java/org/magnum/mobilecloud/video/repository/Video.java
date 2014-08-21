@@ -3,7 +3,6 @@ package org.magnum.mobilecloud.video.repository;
 import com.google.common.base.Objects;
 
 import javax.persistence.*;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -90,7 +89,8 @@ public class Video {
      * Likes this video on behalf of the user provided.
      *
      * @param user the user liking this video.
-     * @return an int representing the HTTP response code. 200 if like was successful, 400 if user already liked this video.
+     * @return <b>true</b> if the user successfully liked this video.<br/>
+     *         <b>false</b> if the user already liked this video, or the provided user is null.
      */
     public boolean likeVideo(String user) {
         if (user != null) {
@@ -101,6 +101,17 @@ public class Video {
         }
 
         return false;
+    }
+
+    /**
+     * Unlikes this video on behalf of the user provided.
+     *
+     * @param user the user unliking this video.
+     * @return <b>true</b> if the user successfully unliked this video.<br/>
+     *         <b>false</b> if the user never liked this video to begin with, or the provided user is null.
+     */
+    public boolean unlikeVideo(String user) {
+        return user != null && userLikes.remove(user);
     }
 	
 	/**
