@@ -111,7 +111,14 @@ public class Video {
      *         <b>false</b> if the user never liked this video to begin with, or the provided user is null.
      */
     public boolean unlikeVideo(String user) {
-        return user != null && userLikes.remove(user);
+        if (user != null) {
+            if (userLikes.remove(user)) {
+                likes--;
+                return true;
+            }
+        }
+
+        return false;
     }
 	
 	/**
