@@ -34,11 +34,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class VideoServiceController {
 
     public static final String VIDEO_PATH = "/video";
+    public static final String SEARCH_PATH = "/search";
 
     @Autowired
     private VideoRepository videoRepository;

@@ -85,6 +85,10 @@ public class Video {
 		this.likes = likes;
 	}
 
+    public Set<String> getUserLikes() {
+        return userLikes;
+    }
+
     /**
      * Likes this video on behalf of the user provided.
      *
