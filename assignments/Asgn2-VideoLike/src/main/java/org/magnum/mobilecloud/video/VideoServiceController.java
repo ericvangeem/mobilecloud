@@ -131,4 +131,41 @@ public class VideoServiceController {
             }
         }
     }
+
+    /**
+     * Retrieves the list of users that like the <code>Video</code> specified by the id.
+     *
+     * @param id the id of the Vdeip
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = VIDEO_PATH + "/{id}/likedby", method = RequestMethod.GET)
+    public @ResponseBody Set<String> getUserLikes(@PathVariable("id") long id,
+                                                  HttpServletResponse response) {
+        Video v = getVideo(id, response);
+        Set<String> userLikes = null;
+
+        if (v != null) {
+            userLikes = v.getUserLikes();
+        }
+
+        return userLikes;
+    }
+
+    /**
+     * Retrieves a list of <code>Videos</code> with the specified title.
+     *
+     * @param title the title to search for
+     * @return the list of videos with the given title, may be empty if no videos are found.
+     */
+    @RequestMapping(value = VIDEO_PATH + SEARCH_PATH + "/findByName", method = RequestMethod.GET)
+    public @ResponseBody List<Video> findVideoByName(@RequestParam("title") String title) {
+        List<Video> videos = videoRepository.findByName(title);
+
+        if (videos == null) {
+            videos = Lists.newArrayList();
+        }
+
+        return videos;
+    }
 }
